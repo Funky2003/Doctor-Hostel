@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lexend+Deca&display=swap");
+*{
+    padding: 0%;
+    margin: 0%;
+}
+
+body{
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.808);
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    border-radius: 25px;
+    box-shadow: 0px 5px 8px 0px;
+    background-color: white;
+}
+
+.main-items-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+.top-item{
+    height: 40vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* background-color: aqua; */
+}
+
+.logo {
+    width: 250px;
+    height: 120px;
+    background-image: url(images/admin-logo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 3%;
+}
+
+.logo-text > h1 > b {
+    font-size: 35px;
+}
+
+.logo-text > p {
+    margin-top: 3px;
+    font-size: 18px;
+}
+
+.bottom-item{
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 166, 0, 0.384);
+}
+
+.user-info{
+    width: 25vw;
+    height: 8vh;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit-container > button{
+    width: 15vw;
+    height: 5vh;
+    background-color: rgb(241, 135, 13);
+    margin-top: 15px;
+    border-radius: 5px;
+    border: 0px;
+    box-shadow: 0px 2px 6px 0px;
+    cursor: pointer;
+    color: black;
+    font-size: 18px;
+}
+
+.user-icon{
+    width: 3vw;
+    height: 6vh;
+    /* background-color: rgb(42, 130, 165); */
+    /* color: cadetblue; */
+}
+
+.username-icon{
+    width: 2vw;
+    height: 4vh;
+    background-image: url(images/username-logo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.password-icon{
+    width: 2vw;
+    height: 5vh;
+    background-image: url(images/password.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.user-inputs{
+    width: 22vw;
+    height: 5vh;
+    margin-left: 3%;
+    border: 1px solid;
+    padding-left: 8px;
+    font-size: 18px;
+    max-lines: 1;
+}
