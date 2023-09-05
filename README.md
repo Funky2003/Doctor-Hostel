@@ -1,2 +1,3 @@
-# Doctor Hostel
- Hostel Booking 
+# Responsive-admin-Dashboard
+
+A responsive admin dashboard build for an ecommerce store.
