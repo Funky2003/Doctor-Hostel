@@ -92,10 +92,23 @@ const database = supabase.createClient(url, key);
         let roomTypeDiv = document.getElementById('roomType');
         let roomPriceDiv = document.getElementById('roomPrice');
 
+
         const res = await database
         .from("rooms")
         .select("*")
-        .filter("admin", "eq", admin_ID)
+        // .filter("admin", "eq", admin_ID)
+
+        for (let i = 0; i <= res.data.length; i++) {
+            var stat = res.data[i]['room_status']
+            console.log(stat);
+            if ( stat == false) {
+                const {data , error} = await database
+                .from("rooms")
+                .update({"room_status": true})
+        
+                console.log(data);
+            }
+        }
 
         let dateList = "";
         let nameList = "";
