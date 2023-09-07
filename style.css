@@ -161,6 +161,12 @@ nav .profile-details img{
   border-radius: 6px;
   object-fit: cover;
 }
+nav .profile-details #adminProfile{
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+}
 nav .profile-details .admin_name{
   font-size: 15px;
   font-weight: 500;

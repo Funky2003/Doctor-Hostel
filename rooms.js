@@ -3,17 +3,36 @@ const key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 const url = "https://nyyozsjnvnbgludpnvjy.supabase.co";
 
 const database = supabase.createClient(url, key);
+    // Logout button redirection
+    let logoutButton = document.getElementById("log-out");
+    logoutButton.addEventListener("click", () => {
+        window.localStorage.clear();
+        location.replace('index.html');
+    });
 
     let admin_ID = localStorage.getItem("id");
     let admin_n = localStorage.getItem("admin");
+    let admin_profile = localStorage.getItem("adminProfile");
     console.log(admin_ID);
     console.log(admin_n);
-    let admin_ = document.getElementById("adminName").innerHTML = admin_n;
+    console.log(admin_profile);
+   
+    // Check if the admin uID exists, if no, redirect to login page else continue
+    if (!admin_ID) {
+        location.replace("index.html");
+    } else {
 
-    // A simple query to get the total number of rooms in the room table....
+        let admin_ = document.getElementById("adminName").innerHTML = admin_n;
+        let adminProfile = document.getElementById("adminProfile");
+        adminProfile.innerHTML = `<img src = "${admin_profile}"></img>`;
+
+        // A simple query to get the total number of rooms in the room table....
         const getTotalCount = async () => {
             let totalRooms = document.getElementById("totalRooms");
-            const res = await database.from("rooms").select("*", { count: "exact" }).filter("admin", "eq", admin_ID);
+            const res = await database
+            .from("rooms")
+            .select("*", { count: "exact" })
+            .filter("admin", "eq", admin_ID);
             totalRooms.innerText = res.data.length;
         }
         getTotalCount();
@@ -65,6 +84,98 @@ const database = supabase.createClient(url, key);
     getTotalIncome();
     // Booked rooms total income CRUD operation...
 
+    // Let's retrieve the total all the admin's rooms
+    const getRooms = async () => {
+
+        let dateAddedDiv = document.getElementById('dateAdded');
+        let roomNameDiv = document.getElementById('roomName');
+        let roomTypeDiv = document.getElementById('roomType');
+        let roomPriceDiv = document.getElementById('roomPrice');
+
+        const res = await database
+        .from("rooms")
+        .select("*")
+        .filter("admin", "eq", admin_ID)
+
+        let dateList = "";
+        let nameList = "";
+        let typeList = "";
+        let priceList = "";
+        for (var i in res.data){
+            console.log(i);
+            dateList += 
+            `<ul> 
+                <li>${res.data[i]['created_at']}</li>
+            </ul>`
+
+            nameList += 
+            `<ul> 
+                <li>${res.data[i]['room_name']}</li>
+            </ul>`
+
+            typeList += 
+            `<ul> 
+                <li>${res.data[i]['room_type']}</li>
+            </ul>`
+
+            priceList += 
+            `<ul> 
+                <li>Ghc ${res.data[i]['room_price']}</li>
+            </ul>`
+        }
+
+        dateAddedDiv.innerHTML = dateList;
+        roomNameDiv.innerHTML = nameList;
+        roomTypeDiv.innerHTML = typeList;
+        roomPriceDiv.innerHTML = priceList;
+    }
+    getRooms();
+    // All admin rooms CRUD operation...
+
+    // Let's retrieve the total all the admin's rooms
+    const getRecentRooms = async () => {
+
+        let recentRooms = document.getElementById('recentRooms');
+
+        const res = await database
+        .from("rooms")
+        .select("*")
+        .filter("admin", "eq", admin_ID)
+
+        let recentRoomsList = "";
+        for (var i in res.data){
+            console.log(i);
+            recentRoomsList += 
+            `<ul 
+            style = "display: flex;
+                gap: 3%"> 
+
+                <img src="${res.data[i]['room_photos'][0]}" 
+                style = "
+                    height: 60px;
+                    width: 60px;
+                    object-fit: cover;
+                    border-radius: 12px;
+                    margin: 1%;
+                    background: #333;
+                "></img>
+
+                <li>${res.data[i]['room_name']}</li>
+                <li 
+                style = "margin-left: 5%;   
+                        font-size: 17px;
+                        font-weight: 400;
+                        color: #333;
+                ">Ghc${res.data[i]['room_price']}</li>
+            </ul>`
+        }
+
+        recentRooms.innerHTML = recentRoomsList;
+    }
+    getRecentRooms();
+    // All admin rooms CRUD operation...
+
+
     let admin_name = document.getElementById("#admin_name");
     let save_room = document.querySelector("#save-room");
     save_room.addEventListener("click", async (e) =>{
@@ -101,11 +212,11 @@ const database = supabase.createClient(url, key);
         let room_phone_call = document.querySelector('#room-phone-call').value;
         let room_lat = document.querySelector('#room-lat').value;
         let room_long = document.querySelector('#room-long').value;
-    //*****************************************************************************************/
+        //*****************************************************************************************/
 
 
 
-    /*----------------Let's create a funtion to upload the room photos to the SUPABASE DATABASE--------------*/
+        /*----------------Let's create a funtion to upload the room photos to the SUPABASE DATABASE--------------*/
         async function uploadRoomFiles(files) {
             for (const file of files) {
             const { data, error } = await database
@@ -142,10 +253,10 @@ const database = supabase.createClient(url, key);
         // let room_photo_url_url = [room_photo_url_1, room_photo_url_2, room_photo_url_3];
         console.log([room_photo_url_1, room_photo_url_2, room_photo_url_3]);
 
-    //*****************************************************************************************/
-    //*****************************************************************************************/
+        //*****************************************************************************************/
+        //*****************************************************************************************/
 
-    /*----------------Let's create a funtion to upload the room_amenity images to the SUPABASE DATABASE--------------*/
+        /*----------------Let's create a funtion to upload the room_amenity images to the SUPABASE DATABASE--------------*/
         async function uploadFiles(files) {
             for (const file of files) {
             const { data, error } = await database
@@ -182,15 +293,15 @@ const database = supabase.createClient(url, key);
         getUrl(image_array); 
         // let room_amenities_image_url = [url1, url2, url3];
         console.log([url1, url2, url3]);
-        
-    //*****************************************************************************************/
-    //*****************************************************************************************/
+            
+        //*****************************************************************************************/
+        //*****************************************************************************************/
 
 
-    //*****************************************************************************************/
-    /*                     Let's save the roo details into the supabase database server       */
-    //*****************************************************************************************/
-        save_room.innerText = 'Saving...';
+        //*****************************************************************************************/
+        /*                     Let's save the roo details into the supabase database server       */
+        //*****************************************************************************************/
+            save_room.innerText = 'Saving...';
         save_room.setAttribute('disabeled', true);
         let res = await database.from('rooms').insert({
             room_id,
@@ -210,56 +321,17 @@ const database = supabase.createClient(url, key);
             room_long: room_long,
             admin: admin_ID,
         })
-    //*****************************************************************************************/
-    //*****************************************************************************************/
-    
+        //*****************************************************************************************/
+        //*****************************************************************************************/
+        
 
-    //*****************************************************************************************/
-    /*                           Let's retrieve and display the uploaded data                 */
-    //*****************************************************************************************/
-        if(res){
-            alert('Room add success...!')
-            save_room.setAttribute('disabeled', false);
-            save_room.innerText = 'Save';
-            room_name = '';
-            room_type = '';
-            room_price = '';
-
-            getRoom();
-            getTotalCount();
-
-        } else{
-            alert('Room add no success...!')
-            save_room.setAttribute('disabeled', false);
-            save_room.innerText('Save');
-        }
+        //*****************************************************************************************/
+        /*                           Let's retrieve and display the uploaded data                 */
+        //*****************************************************************************************/
     });
 
-    const getRoom = async () => {
-        let tbody = document.getElementById("tbody");
-        let tableRow = "";
-        loading.innerText = "Loading...."
-        const res = await database.from("rooms").select("*").filter("admin", "eq", admin_ID);
-        if (res) {
-            for (var i in res.data) {
-                tableRow += `<tr>
-                    <td>${parent(i)}</td>
-                    <td>${res.data[i].created_at}</td>
-                    <td>${res.data[i].room_name}</td>
-                    <td>${res.data[i].room_type}</td>
-                    <td>${res.data[i].room_price}</td>
-                </tr>`;
-            }
-            tbody.innerHTML = tableRow;
-            loading.innerText = ""
-
-        }
-        console.log(res.data[0]['room_photos']);
-        console.log(res.data[0]['room_amenities_image']);
-
-
     }
-    getRoom();
 
+    
 
 

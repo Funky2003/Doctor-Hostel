@@ -9,6 +9,7 @@ id = uID[0];
 let login = document.querySelector("#signin");
 var id;
 var admin_name;
+var admin_profile;
 //  Event CRUD operation...
 login.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -25,9 +26,11 @@ login.addEventListener("click", async (e) => {
 
         id = success.data[0]['uID'];
         admin_name = success.data[0]['full_name'];
+        admin_profile = success.data[0]['hostel_thumbnail'];
         alert(`Login successful`);
         console.log(id);
         console.log(admin_name);
+        console.log(admin_profile);
 
         location.replace('dashboard.html');
   
@@ -38,7 +41,8 @@ login.addEventListener("click", async (e) => {
 
     localStorage.setItem('id', id);
     localStorage.setItem('admin', admin_name);
-    console.log(localStorage.getItem('id'));
+    localStorage.setItem('adminProfile', admin_profile);
+    // console.log(localStorage.getItem('id'));
 
     let admin_ID = uID[0];
     async function adminID (){
