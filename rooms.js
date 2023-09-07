@@ -138,42 +138,52 @@ const database = supabase.createClient(url, key);
     getRooms();
     // All admin rooms CRUD operation...
 
+
     // Let's retrieve all the admin's rooms
     const getTenantList = async () => {
 
-        let dateAddedDiv = document.getElementById('dateAdded');
-        let roomNameDiv = document.getElementById('roomName');
-        let roomTypeDiv = document.getElementById('roomType');
-        let roomPriceDiv = document.getElementById('roomPrice');
+        let tenantNameDiv = document.getElementById('all-tenants-name');
+        let tenantEmailDiv = document.getElementById('all-tenants-email');
+        let tenantContactDiv = document.getElementById('all-tenants-contact');
+        let tenantBookedDiv = document.getElementById('all-tenants-booked');
+        let tenantBookedDateDiv = document.getElementById('all-tenants-booked-date');
+        let tenantBookedRoomNameDiv = document.getElementById('all-tenants-booked-room-name');
+        let tenantBookedRoomTypeDiv = document.getElementById('all-tenants-booked-room-type');
+        let tenantBookedRoomPriceDiv = document.getElementById('all-tenants-booked-room-price');
+
 
         const res = await database
-        .from("rooms")
+        .from("bookings")
         .select("*")
         .filter("admin", "eq", admin_ID)
 
-        let dateList = "";
-        let nameList = "";
-        let typeList = "";
-        let priceList = "";
+        let tenantNameList = "";
+        let tenantEmailList = "";
+        let tenantContactList = "";
+        let tenantBookedRoomList = "";
         let statusList = "";
+        let tenantBookedRoomDateList = "";
+        let tenantBookedRoomNameList = "";
+        let tenantBookedRoomTypeList = "";
+        let tenantBookedRoomPriceList = "";
         for (var i in res.data){
             console.log(i);
-            dateList += 
+            tenantNameList += 
             `<ul> 
                 <li>${res.data[i]['created_at']}</li>
             </ul>`
 
-            nameList += 
+            tenantEmailList += 
             `<ul> 
                 <li>${res.data[i]['room_name']}</li>
             </ul>`
 
-            typeList += 
+            tenantContactList += 
             `<ul> 
                 <li>${res.data[i]['room_type']}</li>
             </ul>`
 
-            priceList += 
+            tenantBookedRoomList += 
             `<ul> 
                 <li>Ghc ${res.data[i]['room_price']}</li>
             </ul>`
@@ -182,12 +192,36 @@ const database = supabase.createClient(url, key);
             `<ul> 
                 <li>${res.data[i]['room_status']}</li>
             </ul>`
+
+            tenantBookedRoomDateList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
+
+            tenantBookedRoomNameList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
+
+            tenantBookedRoomTypeList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
+
+            tenantBookedRoomPriceList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
         }
 
-        dateAddedDiv.innerHTML = dateList;
-        roomNameDiv.innerHTML = nameList;
-        roomTypeDiv.innerHTML = typeList;
-        roomPriceDiv.innerHTML = priceList;
+        // tenantNameDiv.innerHTML = tenantNameList;
+        // tenantEmailDiv.innerHTML = tenantEmailList;
+        // tenantContactDiv.innerHTML = tenantContactList;
+        // tenantBookedDiv.innerHTML = tenantBookedRoomList;
+        // tenantBookedDateDiv.innerHTML = tenantBookedRoomDateList;
+        // tenantBookedRoomNameDiv.innerHTML = tenantBookedRoomNameList;
+        // tenantBookedRoomTypeDiv.innerHTML = tenantBookedRoomTypeList;
+        // tenantBookedRoomPriceDiv.innerHTML = tenantBookedRoomPriceList;
     }
     getTenantList();
     // All admin rooms CRUD operation...
