@@ -181,6 +181,7 @@ nav .profile-details i{
 .home-section .home-content{
   position: relative;
   padding-top: 104px;
+  width: 100%;
 }
 .home-content .overview-boxes{
   display: flex;
@@ -267,12 +268,15 @@ nav .profile-details i{
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 65%;
+  width:65%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.home-content .sales-boxes .recent-sales-all-rooms{
+  width: max-content;
 }
 .home-content .sales-boxes .sales-details{
   display: flex;

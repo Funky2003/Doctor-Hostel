@@ -101,6 +101,7 @@ const database = supabase.createClient(url, key);
         let nameList = "";
         let typeList = "";
         let priceList = "";
+        let statusList = "";
         for (var i in res.data){
             console.log(i);
             dateList += 
@@ -122,6 +123,11 @@ const database = supabase.createClient(url, key);
             `<ul> 
                 <li>Ghc ${res.data[i]['room_price']}</li>
             </ul>`
+
+            statusList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
         }
 
         dateAddedDiv.innerHTML = dateList;
@@ -130,6 +136,188 @@ const database = supabase.createClient(url, key);
         roomPriceDiv.innerHTML = priceList;
     }
     getRooms();
+    // All admin rooms CRUD operation...
+
+    // Let's retrieve all the admin's rooms
+    const getTenantList = async () => {
+
+        let dateAddedDiv = document.getElementById('dateAdded');
+        let roomNameDiv = document.getElementById('roomName');
+        let roomTypeDiv = document.getElementById('roomType');
+        let roomPriceDiv = document.getElementById('roomPrice');
+
+        const res = await database
+        .from("rooms")
+        .select("*")
+        .filter("admin", "eq", admin_ID)
+
+        let dateList = "";
+        let nameList = "";
+        let typeList = "";
+        let priceList = "";
+        let statusList = "";
+        for (var i in res.data){
+            console.log(i);
+            dateList += 
+            `<ul> 
+                <li>${res.data[i]['created_at']}</li>
+            </ul>`
+
+            nameList += 
+            `<ul> 
+                <li>${res.data[i]['room_name']}</li>
+            </ul>`
+
+            typeList += 
+            `<ul> 
+                <li>${res.data[i]['room_type']}</li>
+            </ul>`
+
+            priceList += 
+            `<ul> 
+                <li>Ghc ${res.data[i]['room_price']}</li>
+            </ul>`
+
+            statusList += 
+            `<ul> 
+                <li>${res.data[i]['room_status']}</li>
+            </ul>`
+        }
+
+        dateAddedDiv.innerHTML = dateList;
+        roomNameDiv.innerHTML = nameList;
+        roomTypeDiv.innerHTML = typeList;
+        roomPriceDiv.innerHTML = priceList;
+    }
+    getTenantList();
+    // All admin rooms CRUD operation...
+
+   
+   
+   
+    // Let's retrieve the all the admin's rooms in the All-Rooms section
+    const getAllRooms = async () => {
+
+        let dateAddedDiv = document.getElementById('all-rooms-added');
+        let roomNameDiv = document.getElementById('all-rooms-name');
+        let roomTypeDiv = document.getElementById('all-rooms-type');
+        let roomPriceDiv = document.getElementById('all-rooms-price');
+        let roomStatusDiv = document.getElementById('all-rooms-status');
+        let roomUpdateDiv = document.getElementById('all-rooms-update');
+        let roomDeleteDiv = document.getElementById('all-rooms-delete');
+
+        const res = await database
+        .from("rooms")
+        .select("*")
+        .filter("admin", "eq", admin_ID)
+
+        let vacant = "Vacant";
+        let booked = "Booked";
+
+        let dateList = "";
+        let nameList = "";
+        let typeList = "";
+        let priceList = "";
+        let statusList = "";
+        let updateList = "";
+        let deleteList = "";
+        for (var i in res.data){
+            console.log(i);
+            dateList += 
+            `<ul> 
+                <li>${res.data[i]['created_at']}</li>
+            </ul>`
+
+            nameList += 
+            `<ul> 
+                <li>${res.data[i]['room_name']}</li>
+            </ul>`
+
+            typeList += 
+            `<ul> 
+                <li>${res.data[i]['room_type']}</li>
+            </ul>`
+
+            priceList += 
+            `<ul> 
+                <li>Ghc ${res.data[i]['room_price']}</li>
+            </ul>`
+
+            // An if-else block to check if the room status is true or false
+            const statusText = res.data[i]['room_status'] ? `<div 
+                                                                style="background-color: green;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    justify-content: center;
+                                                                    color: white;
+                                                                    border-radius: 2px;
+                                                                ">${vacant}
+                                                        </div>` : `<div
+                                                                    style="background-color: orange;
+                                                                        display: flex;
+                                                                        align-items: center;
+                                                                        justify-content: center;
+                                                                        color: white;
+                                                                        border-radius: 2px;
+                                                                    ">${booked}
+                                                                </div>`;
+            statusList += 
+            `<ul>
+                <li>${statusText}</li>
+            </ul>`
+                                                                    
+
+            
+
+            updateList += 
+            `<ul> 
+                <li>
+                    <div
+                    onclick='editRoom(${res.data[i].room_id})' 
+                    data-bs-target="#editModel"
+
+                        style="background-color: #66b0ff;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            border-radius: 2px;
+                            cursor: pointer;
+                        ">Update
+                    </div>
+                </li>
+            </ul>`
+
+            deleteList += 
+            `<ul> 
+                <li>
+                    <div
+                        onclick='deleteRoom(${res.data[i].room_id})'
+
+                        style="background-color: red;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: white;
+                            border-radius: 2px;
+                            cursor: pointer;
+                            
+                        ">Delete
+                    </div>
+                </li>
+            </ul>`
+            
+        }
+
+        dateAddedDiv.innerHTML = dateList;
+        roomNameDiv.innerHTML = nameList;
+        roomTypeDiv.innerHTML = typeList;
+        roomPriceDiv.innerHTML = priceList;
+        roomStatusDiv.innerHTML = statusList;
+        roomUpdateDiv.innerHTML = updateList;
+        roomDeleteDiv.innerHTML = deleteList;
+    }
+    getAllRooms();
     // All admin rooms CRUD operation...
 
     // Let's retrieve the total all the admin's rooms
@@ -301,7 +489,7 @@ const database = supabase.createClient(url, key);
         //*****************************************************************************************/
         /*                     Let's save the roo details into the supabase database server       */
         //*****************************************************************************************/
-            save_room.innerText = 'Saving...';
+        save_room.innerText = 'Saving...';
         save_room.setAttribute('disabeled', true);
         let res = await database.from('rooms').insert({
             room_id,
@@ -321,6 +509,11 @@ const database = supabase.createClient(url, key);
             room_long: room_long,
             admin: admin_ID,
         })
+        if (res) {
+            alert(`${room_name} successfully added!`)
+            window.location.reload();
+        }
+        console.log(`This forms the added room resource: ${res.data}`);
         //*****************************************************************************************/
         //*****************************************************************************************/
         
