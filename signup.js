@@ -78,8 +78,9 @@ signup.addEventListener("click", async (e) => {
     let password = document.querySelector("#password").value;
     let hostel_name = document.querySelector("#hostel_name").value;
     let hostel_location = document.querySelector("#hostel_location").value;
+
+
     let hostel_thumbnail = document.querySelector("#hostel_thumbnail").files[0];
-    
     // Upload the thumbnail to the database
     // Upload the thumbnail to the database
     async function thumbnail(file) {
@@ -108,7 +109,6 @@ signup.addEventListener("click", async (e) => {
       return null;
     }
   }
-  
   // Let's get the thumbnail URL from the database and log it
   var thumbnail_URL;
   async function getUrl(fileData) {
